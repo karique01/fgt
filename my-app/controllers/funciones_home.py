@@ -47,6 +47,8 @@ from sklearn.metrics import accuracy_score, classification_report, recall_score,
 #Excel de datos------------------------------------------------------------
 datos = pd.read_excel('https://github.com/karique01/bomberospdfs/blob/master/dataset.xlsx?raw=true')##C:\Users\Data ##C:/Users/kvera/Documents/Proyectos/ml/dataset.xlsx
 
+#region Modelo entrenamiento
+
 # sns.countplot(data=datos, x='PuntajeApgarMin1',hue='PesoBebé')
 # plt.show()
 
@@ -699,10 +701,7 @@ print('Precision Score : ' + str(precision_score(y_data_validar,voting_valid)))
 print('Recall Score : ' + str(recall_score(y_data_validar,voting_valid)))
 print('F1 Score : ' + str(f1_score(y_data_validar,voting_valid)))
 
-
-
-
-
+#endregion
 
 
 def procesar_form_empleado(dataForm, foto_perfil):
@@ -716,13 +715,20 @@ def procesar_form_empleado(dataForm, foto_perfil):
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
 
-                sql = "INSERT INTO tbl_empleados (nombre_empleado, apellido_empleado, sexo_empleado, paridad, visita_prenatal, duracion_rotura_membrana, parto_cesarea, edad_madre_veinte_treintacuatro, foto_empleado, salario_empleado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                sql = "INSERT INTO tbl_empleados (nombre_empleado, apellido_empleado, sexo_empleado, paridad, visita_prenatal, duracion_rotura_membrana, parto_cesarea, edad_madre_veinte_treintacuatro, foto_empleado, salario_empleado, modo_entrega, condicion_parto, duracion_parto, tipo_embarazo, sufrimiento_fetal, problema_cordon_umbilical, poco_fluido_amniotico, historial_aborto, hipertension, hemorragia_anteparto, peso_bebe, edad_gestacional) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
                 # Creando una tupla con los valores del INSERT
                 valores = (dataForm['nombre_empleado'], dataForm['apellido_empleado'], dataForm['sexo_empleado'],
                            dataForm['paridad'], dataForm['visita_prenatal'], dataForm['duracion_rotura_membrana'], 
                            dataForm['parto_cesarea'], dataForm['edad_madre_veinte_treintacuatro'], 
-                           result_foto_perfil, salario_entero)
+                           result_foto_perfil, salario_entero,
+                           dataForm['modo_entrega'], dataForm['condicion_parto'],
+                           dataForm['duracion_parto'], dataForm['tipo_embarazo'],
+                           dataForm['sufrimiento_fetal'], dataForm['problema_cordon_umbilical'],
+                           dataForm['poco_fluido_amniotico'], dataForm['historial_aborto'],
+                           dataForm['hipertension'], dataForm['hemorragia_anteparto'],
+                           dataForm['peso_bebe'], dataForm['edad_gestacional'])
+                
                 cursor.execute(sql, valores)
 
                 conexion_MySQLdb.commit()
@@ -817,6 +823,18 @@ def sql_detalles_empleadosBD(idEmpleado):
                         e.duracion_rotura_membrana,
                         e.parto_cesarea,
                         e.edad_madre_veinte_treintacuatro,
+                        e.modo_entrega,
+                        e.condicion_parto,
+                        e.duracion_parto,
+                        e.tipo_embarazo,
+                        e.sufrimiento_fetal,
+                        e.problema_cordon_umbilical,
+                        e.poco_fluido_amniotico,
+                        e.historial_aborto,
+                        e.hipertension,
+                        e.hemorragia_anteparto,
+                        e.peso_bebe,
+                        e.edad_gestacional,
                         '' as asfixia
                     FROM tbl_empleados AS e
                     WHERE id_empleado =%s
@@ -845,6 +863,23 @@ def empleadosReporte():
                         e.email_empleado,
                         e.telefono_empleado,
                         e.profesion_empleado,
+                        e.modo_entrega,
+                        e.condicion_parto,
+                        e.duracion_parto,
+                        e.tipo_embarazo,
+                        e.sufrimiento_fetal,
+                        e.problema_cordon_umbilical,
+                        e.poco_fluido_amniotico,
+                        e.historial_aborto,
+                        e.hipertension,
+                        e.hemorragia_anteparto,
+                        e.peso_bebe,
+                        e.edad_gestacional,
+                        e.paridad,
+                        e.visita_prenatal,
+                        e.duracion_rotura_membrana,
+                        e.edad_madre_veinte_treintacuatro,
+                        e.parto_cesarea,
                         DATE_FORMAT(e.fecha_registro, '%d de %b %Y %h:%i %p') AS fecha_registro,
                         CASE
                             WHEN e.sexo_empleado = 1 THEN 'Masculino'
@@ -869,36 +904,65 @@ def generarReporteExcel():
 
     # Agregar la fila de encabezado con los títulos
     cabeceraExcel = ("Nombre", "Apellido", "Sexo",
-                     "Paridad", "Visita Prenatal", "Duracion de Rotura de Menbrana", "Peso", "Fecha de Ingreso")
+                     "Paridad", "Visita Prenatal", "Duracion de Rotura de Menbrana",
+                     "Modo entrega", "Condición de Parto", "Duración parto", "Tipo de embarazo", 
+                     "Sufrimiento Fetal", "Problema de cordón umbilical", "Poco Fluido Amniotico", "Problema de cordón umbilical", 
+                     "Hipertensión", "Hemorragia Anteparto", "Peso Bebé", "Edad Gestacional", 
+                     "Edad de la madre [20-34] años", "Parto por cesárea", 
+                     "Peso", 
+                     "Fecha de Ingreso")
 
     hoja.append(cabeceraExcel)
 
     # Formato para números en moneda colombiana y sin decimales
-    formato_moneda_colombiana = '#,##0'
+    #formato_moneda_colombiana = '#,##0'
 
     # Agregar los registros a la hoja
     for registro in dataEmpleados:
         nombre_empleado = registro['nombre_empleado']
         apellido_empleado = registro['apellido_empleado']
         sexo_empleado = registro['sexo_empleado']
-        telefono_empleado = registro['telefono_empleado']
-        email_empleado = registro['email_empleado']
-        profesion_empleado = registro['profesion_empleado']
+
+
+        paridad = 'Primípara' if registro['paridad'] == 0 else 'Multípara'
+        visita_prenatal = 'No' if registro['visita_prenatal'] == 0 else 'Si'
+        duracion_rotura_membrana = '< 18 hrs' if registro['duracion_rotura_membrana'] == 0 else '> 18hrs'
+        modo_entrega = 'AVD' if registro['modo_entrega'] == 1 else 'C/S' if registro['modo_entrega'] == 2 else 'SVD'
+        condicion_parto = 'Inducida' if registro['condicion_parto'] == 1 else 'Espontanea' if registro['condicion_parto'] == 2 else 'Sin Labor'
+        duracion_parto = 'Normal' if registro['duracion_parto'] == 1 else 'Precipitado' if registro['duracion_parto'] == 2 else 'Prolongado'
+        tipo_embarazo = 'Multiple' if registro['tipo_embarazo'] == 1 else 'Único'
+        sufrimiento_fetal = 'No' if registro['sufrimiento_fetal'] == 0 else 'Si'
+        problema_cordon_umbilical = 'No' if registro['problema_cordon_umbilical'] == 0 else 'Si'
+        poco_fluido_amniotico = 'No' if registro['poco_fluido_amniotico'] == 0 else 'Si'
+        historial_aborto = 'No' if registro['historial_aborto'] == 0 else 'Si'
+        hipertension = 'No' if registro['hipertension'] == 0 else 'Si'
+        hemorragia_anteparto = 'No' if registro['hemorragia_anteparto'] == 0 else 'Si'
+        peso_bebe = 'Bebé Grande' if registro['peso_bebe'] == 1 else 'Peso Ligero' if registro['peso_bebe'] == 2 else 'Normal'
+        edad_gestacional = 'Post Termino' if registro['edad_gestacional'] == 1 else 'Pre Termino' if registro['edad_gestacional'] == 2 else 'Bebé a termino'
+        edad_madre_veinte_treintacuatro = 'No' if registro['edad_madre_veinte_treintacuatro'] == 0 else 'Si'
+        parto_cesarea = 'No' if registro['parto_cesarea'] == 0 else 'Si'
+
+
         salario_empleado = registro['salario_empleado']
         fecha_registro = registro['fecha_registro']
     
         # Agregar los valores a la hoja
-        hoja.append((nombre_empleado, apellido_empleado, sexo_empleado, telefono_empleado, email_empleado, profesion_empleado,
+        hoja.append((nombre_empleado, apellido_empleado, sexo_empleado, 
+                     paridad, visita_prenatal, duracion_rotura_membrana,
+                     modo_entrega,condicion_parto,duracion_parto,tipo_embarazo,
+                     sufrimiento_fetal,problema_cordon_umbilical,poco_fluido_amniotico,historial_aborto,
+                     hipertension,hemorragia_anteparto,peso_bebe,edad_gestacional,
+                     edad_madre_veinte_treintacuatro,parto_cesarea,
                      salario_empleado, fecha_registro))
 
         # Itera a través de las filas y aplica el formato a la columna G
-        for fila_num in range(2, hoja.max_row + 1):
-            columna = 7  # Columna G
-            celda = hoja.cell(row=fila_num, column=columna)
-            celda.number_format = formato_moneda_colombiana
+        # for fila_num in range(2, hoja.max_row + 1):
+        #     columna = 7  # Columna G
+        #     celda = hoja.cell(row=fila_num, column=columna)
+        #     celda.number_format = formato_moneda_colombiana
 
     fecha_actual = datetime.datetime.now()
-    archivoExcel = f"Reporte_empleados_{fecha_actual.strftime('%Y_%m_%d')}.xlsx"
+    archivoExcel = f"Reporte_pacientes_{fecha_actual.strftime('%Y_%m_%d')}.xlsx"
     carpeta_descarga = "../static/downloads-excel"
     ruta_descarga = os.path.join(os.path.dirname(
         os.path.abspath(__file__)), carpeta_descarga)
@@ -957,7 +1021,19 @@ def buscarEmpleadoUnico(id):
                             e.email_empleado,
                             e.profesion_empleado,
                             e.salario_empleado,
-                            e.foto_empleado
+                            e.foto_empleado,
+                            e.modo_entrega,
+                            e.condicion_parto,
+                            e.duracion_parto,
+                            e.tipo_embarazo,
+                            e.sufrimiento_fetal,
+                            e.problema_cordon_umbilical,
+                            e.poco_fluido_amniotico,
+                            e.historial_aborto,
+                            e.hipertension,
+                            e.hemorragia_anteparto,
+                            e.peso_bebe,
+                            e.edad_gestacional
                         FROM tbl_empleados AS e
                         WHERE e.id_empleado =%s LIMIT 1
                     """)
@@ -977,9 +1053,18 @@ def procesar_actualizacion_form(data):
                 nombre_empleado = data.form['nombre_empleado']
                 apellido_empleado = data.form['apellido_empleado']
                 sexo_empleado = data.form['sexo_empleado']
-                telefono_empleado = data.form['telefono_empleado']
-                email_empleado = data.form['email_empleado']
-                profesion_empleado = data.form['profesion_empleado']
+                modo_entrega = data.form['modo_entrega']
+                condicion_parto = data.form['condicion_parto']
+                duracion_parto = data.form['duracion_parto']
+                tipo_embarazo = data.form['tipo_embarazo']
+                sufrimiento_fetal = data.form['sufrimiento_fetal']
+                problema_cordon_umbilical = data.form['problema_cordon_umbilical']
+                poco_fluido_amniotico = data.form['poco_fluido_amniotico']
+                historial_aborto = data.form['historial_aborto']
+                hipertension = data.form['hipertension']
+                hemorragia_anteparto = data.form['hemorragia_anteparto']
+                peso_bebe = data.form['peso_bebe']
+                edad_gestacional = data.form['edad_gestacional']
 
                 salario_sin_puntos = re.sub(
                     '[^0-9]+', '', data.form['salario_empleado'])
@@ -996,16 +1081,26 @@ def procesar_actualizacion_form(data):
                             nombre_empleado = %s,
                             apellido_empleado = %s,
                             sexo_empleado = %s,
-                            telefono_empleado = %s,
-                            email_empleado = %s,
-                            profesion_empleado = %s,
                             salario_empleado = %s,
-                            foto_empleado = %s
+                            foto_empleado = %s,
+                            modo_entrega = %s,
+                            condicion_parto = %s,
+                            duracion_parto = %s,
+                            tipo_embarazo = %s,
+                            sufrimiento_fetal = %s,
+                            problema_cordon_umbilical = %s,
+                            poco_fluido_amniotico = %s,
+                            historial_aborto = %s,
+                            hipertension = %s,
+                            hemorragia_anteparto = %s,
+                            peso_bebe = %s,
+                            edad_gestacional = %s
                         WHERE id_empleado = %s
                     """
                     values = (nombre_empleado, apellido_empleado, sexo_empleado,
-                              telefono_empleado, email_empleado, profesion_empleado,
-                              salario_empleado, fotoForm, id_empleado)
+                              salario_empleado, fotoForm, 
+                              modo_entrega, condicion_parto, duracion_parto, tipo_embarazo, sufrimiento_fetal, problema_cordon_umbilical, poco_fluido_amniotico, historial_aborto, hipertension, hemorragia_anteparto, peso_bebe, edad_gestacional,
+                              id_empleado)
                 else:
                     querySQL = """
                         UPDATE tbl_empleados
@@ -1013,15 +1108,25 @@ def procesar_actualizacion_form(data):
                             nombre_empleado = %s,
                             apellido_empleado = %s,
                             sexo_empleado = %s,
-                            telefono_empleado = %s,
-                            email_empleado = %s,
-                            profesion_empleado = %s,
-                            salario_empleado = %s
+                            salario_empleado = %s,
+                            modo_entrega = %s,
+                            condicion_parto = %s,
+                            duracion_parto = %s,
+                            tipo_embarazo = %s,
+                            sufrimiento_fetal = %s,
+                            problema_cordon_umbilical = %s,
+                            poco_fluido_amniotico = %s,
+                            historial_aborto = %s,
+                            hipertension = %s,
+                            hemorragia_anteparto = %s,
+                            peso_bebe = %s,
+                            edad_gestacional = %s
                         WHERE id_empleado = %s
                     """
                     values = (nombre_empleado, apellido_empleado, sexo_empleado,
-                              telefono_empleado, email_empleado, profesion_empleado,
-                              salario_empleado, id_empleado)
+                              salario_empleado, 
+                              modo_entrega, condicion_parto, duracion_parto, tipo_embarazo, sufrimiento_fetal, problema_cordon_umbilical, poco_fluido_amniotico, historial_aborto, hipertension, hemorragia_anteparto, peso_bebe, edad_gestacional,
+                              id_empleado)
 
                 cursor.execute(querySQL, values)
                 conexion_MySQLdb.commit()

@@ -234,3 +234,49 @@ tbody tr:hover {
   min-width: 44% !important;
   background-color: #f3efef !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.container-xxl {
+  padding-bottom: 50px; /* Espacio extra para el footer */
+}
+
+/* Estilos para el footer */
+footer {
+  background-color: #f8f9fa; /* Fondo claro */
+  text-align: center; /* Centra el texto */
+  padding: 10px; /* Espacio alrededor del contenido */
+  border-top: 1px solid #ddd; /* Línea divisoria */
+  position: absolute;
+  bottom: 0;
+  width: 100%; /* Asegura que cubra todo el ancho */
+}
+
+footer p {
+  margin: 0; /* Eliminar espacio entre líneas */
+  color: #333; /* Color del texto */
+}
+
+footer a {
+  color: #007bff; /* Color del enlace */
+  text-decoration: none; /* Sin subrayado */
+}
+
+footer a:hover {
+  text-decoration: underline; /* Subrayar al pasar el mouse */
+}
+
+/* Estilo para centrar el texto */
+.text-center {
+  text-align: center;
+}

@@ -54,7 +54,14 @@ def detalleEmpleado(idEmpleado=None):
             detalle_empleado = sql_detalles_empleadosBD(idEmpleado) or []
 
             #PREDECIR ASFIXIA
-            datos_paciente = pd.DataFrame(np.array([[detalle_empleado['paridad'],detalle_empleado['visita_prenatal'],detalle_empleado['duracion_rotura_membrana'],detalle_empleado['parto_cesarea'],detalle_empleado['edad_madre_veinte_treintacuatro']]]),columns=variables.get_feature_names_out())
+            datos_paciente = pd.DataFrame(np.array([
+                [detalle_empleado['paridad'],
+                  detalle_empleado['visita_prenatal'],
+                  detalle_empleado['duracion_rotura_membrana'],
+                  detalle_empleado['parto_cesarea'],
+                  detalle_empleado['edad_madre_veinte_treintacuatro']]
+            ]),columns=variables.get_feature_names_out())
+            
             print(datos_paciente)
 
             prediccion_asfixia = voting_model.predict(datos_paciente)

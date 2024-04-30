@@ -81,8 +81,14 @@ def procesar_update_perfil(data_form):
     new_pass_user = data_form['new_pass_user']
     repetir_pass_user = data_form['repetir_pass_user']
 
+    if new_pass_user != repetir_pass_user:
+        return 2
+
     if not pass_actual or not email_user:
         return 3
+    
+    if not new_pass_user or not repetir_pass_user:
+        return 4
 
     with connectionBD() as conexion_MySQLdb:
         with conexion_MySQLdb.cursor(dictionary=True) as cursor:
@@ -119,6 +125,8 @@ def procesar_update_perfil(data_form):
                                 print(
                                     f"Ocurrió en procesar_update_perfil: {e}")
                                 return []
+                else:
+                    return 0
             else:
                 return 0
 

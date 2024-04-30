@@ -92,13 +92,13 @@
           </div>
          
             <div class="col-md-6">
-            <label for="" class="form-label"> IMAGEN DEL PACIENTE </label>
+            <!-- <label for="" class="form-label"> IMAGEN DEL PACIENTE </label>
             <br />
             <img
               style="width: 200px"
               src="/static/fotos_empleados/{{ detalle_empleado.foto_empleado }}"
-              alt="imagen" />
-          </div>
+              alt="imagen" /> -->
+            </div>
         </div>
 
         <div class="row mt-2">
@@ -179,6 +179,172 @@
             {% endif %}
           </div>
         </div>
+
+
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="modo_entrega" class="form-label">
+              Modo de entrega
+            </label>
+            <br />
+            {% if detalle_empleado.modo_entrega == 1 %}
+                AVD
+            {% elif detalle_empleado.modo_entrega == 2 %}
+                C/S
+            {% elif detalle_empleado.modo_entrega == 3 %}
+                SVD
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <label for="condicion_parto" class="form-label">
+              Condición de Parto
+            </label>
+            <br />
+            {% if detalle_empleado.condicion_parto == 1 %}
+                Inducida
+            {% elif detalle_empleado.condicion_parto == 2 %}
+                Espontanea
+            {% elif detalle_empleado.condicion_parto == 3 %}
+                Sin Labor
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="duracion_parto" class="form-label">
+              Duración parto
+            </label>
+            <br />
+            {% if detalle_empleado.duracion_parto == 1 %}
+                Normal
+            {% elif detalle_empleado.duracion_parto == 2 %}
+                Precipitado
+            {% elif detalle_empleado.duracion_parto == 3 %}
+                Prolongado
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <label for="tipo_embarazo" class="form-label">
+              Tipo de embarazo
+            </label>
+            <br />
+            {% if detalle_empleado.tipo_embarazo == 1 %}
+                Multiple
+            {% elif detalle_empleado.tipo_embarazo == 2 %}
+                Único
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="sufrimiento_fetal" class="form-label">
+              Sufrimiento Fetal
+            </label>
+            <br />
+            {% if detalle_empleado.sufrimiento_fetal == 0 %}
+                No
+            {% elif detalle_empleado.sufrimiento_fetal == 1 %}
+                Si
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <label for="problema_cordon_umbilical" class="form-label">
+              Problema de cordón umbilical
+            </label>
+            <br />
+            {% if detalle_empleado.problema_cordon_umbilical == 0 %}
+                No
+            {% elif detalle_empleado.problema_cordon_umbilical == 1 %}
+                Si
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="poco_fluido_amniotico" class="form-label">
+              Poco Fluido Amniotico
+            </label>
+            <br />
+            {% if detalle_empleado.poco_fluido_amniotico == 0 %}
+                No
+            {% elif detalle_empleado.poco_fluido_amniotico == 1 %}
+                Si
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <label for="historial_aborto" class="form-label">
+              Historial Aborto
+            </label>
+            <br />
+            {% if detalle_empleado.historial_aborto == 0 %}
+                No
+            {% elif detalle_empleado.historial_aborto == 1 %}
+                Si
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="hipertension" class="form-label">
+              Hipertensión
+            </label>
+            <br />
+            {% if detalle_empleado.hipertension == 0 %}
+                No
+            {% elif detalle_empleado.hipertension == 1 %}
+                Si
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <label for="hemorragia_anteparto" class="form-label">
+              Hemorragia Anteparto
+            </label>
+            <br />
+            {% if detalle_empleado.hemorragia_anteparto == 0 %}
+                No
+            {% elif detalle_empleado.hemorragia_anteparto == 1 %}
+                Si
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <label for="peso_bebe" class="form-label">
+              Peso Bebé
+            </label>
+            <br />
+            {% if detalle_empleado.peso_bebe == 1 %}
+                Bebé Grande
+            {% elif detalle_empleado.peso_bebe == 2 %}
+                Peso Ligero
+            {% elif detalle_empleado.peso_bebe == 3 %}
+                Normal
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <label for="edad_gestacional" class="form-label">
+              Edad Gestacional
+            </label>
+            <br />
+            {% if detalle_empleado.edad_gestacional == 1 %}
+                Post Termino
+            {% elif detalle_empleado.edad_gestacional == 2 %}
+                Pre Termino
+            {% elif detalle_empleado.edad_gestacional == 3 %}
+                Bebé a termino
+            {% endif %}
+          </div>
+        </div>
+
+        
+
+
 
       </div>
     </div>

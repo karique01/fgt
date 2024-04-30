@@ -78,14 +78,16 @@ def actualizarPerfil():
                 flash('Los datos fuerón actualizados correctamente.', 'success')
                 return redirect(url_for('inicio'))
             elif respuesta == 0:
-                flash(
-                    'La contraseña actual esta incorrecta, por favor verifique.', 'error')
+                flash('La contraseña actual esta incorrecta, por favor verifique.', 'error')
                 return redirect(url_for('perfil'))
             elif respuesta == 2:
                 flash('Ambas claves deben se igual, por favor verifique.', 'error')
                 return redirect(url_for('perfil'))
             elif respuesta == 3:
                 flash('La Clave actual es obligatoria.', 'error')
+                return redirect(url_for('perfil'))
+            elif respuesta == 4:
+                flash('La nueva Clave y su repetición son obligatorios.', 'error')
                 return redirect(url_for('perfil'))
         else:
             flash('primero debes iniciar sesión.', 'error')

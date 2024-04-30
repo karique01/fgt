@@ -83,9 +83,9 @@
               {% endwith %}
             </div>
 
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
               <label for="telefono_empleado" class="form-label">
-                PARIDAD
+                Telefono
               </label>
               <input
                 class="form-control"
@@ -93,13 +93,13 @@
                 name="telefono_empleado"
                 value="{{ respuestaEmpleado.telefono_empleado }}"
                 required />
-            </div>
+            </div> -->
           </div>
 
-          <div class="row mt-2">
+          <!-- <div class="row mt-2">
             <div class="col-md-6">
               <label for="email_empleado" class="form-label">
-                VISITA PRENATAL
+                Email
               </label>
               <input
                 class="form-control"
@@ -110,7 +110,7 @@
             </div>
             <div class="col-md-6">
               <label for="profesion_empleado" class="form-label">
-                Duracion de Rotura de Membrana
+                Profesión
               </label>
               <input
                 class="form-control"
@@ -119,7 +119,7 @@
                 value="{{ respuestaEmpleado.profesion_empleado }}"
                 required />
             </div>
-          </div>
+          </div> -->
 
           <div class="row mt-2">
             <div class="col-md-6">
@@ -135,7 +135,7 @@
                 required />
             </div>
           
-            <div class="col-md-6">
+            <div class="col-md-6" style="display: none;">
               <label for="" class="form-label"> FOTO DEL PACIENTE </label>
               <br />
               <img
@@ -143,32 +143,243 @@
                 style="width: 150px"
                 alt="{{ respuestaEmpleado.nombre_empleado }}" />
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <label for="" class="form-label">
-                ACTUALIZAR LA FOTO DEL Paciente
-              </label>
-              <div class="avatar-upload">
-                <div class="avatar-edit">
-                  <input
-                    type="file"
-                    name="foto_empleado"
-                    id="imageUpload"
-                    accept=".png, .jpg, .jpeg" />
-                  <label for="imageUpload"><i class="bi bi-pen"></i></label>
-                </div>
-                <div class="avatar-preview">
-                  {% set url_avatar= url_for('static', filename
-                  ='assets/img/avatar.png') %}
-                  <div
-                    id="imagePreview"
-                    style="background-image: url('{{ url_avatar }}')"></div>
+            <div class="row">
+              <div class="col-md-6" style="display: none;">
+                <label for="" class="form-label">
+                  ACTUALIZAR LA FOTO DEL Paciente
+                </label>
+                <div class="avatar-upload">
+                  <div class="avatar-edit">
+                    <input
+                      type="file"
+                      name="foto_empleado"
+                      id="imageUpload"
+                      accept=".png, .jpg, .jpeg" />
+                    <label for="imageUpload"><i class="bi bi-pen"></i></label>
+                  </div>
+                  <div class="avatar-preview">
+                    {% set url_avatar= url_for('static', filename
+                    ='assets/img/avatar.png') %}
+                    <div
+                      id="imagePreview"
+                      style="background-image: url('{{ url_avatar }}')"></div>
+                  </div>
                 </div>
               </div>
             </div>
+
           </div>
+
+
+
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="modo_entrega" class="form-label">
+                Modo de entrega
+              </label>
+              {% with tipo_modo_entrega = {"1": "AVD", "2": "C/S", "3": "SVD"} %}
+              <select class="form-select" name="modo_entrega">
+                {% for clave, valor in tipo_modo_entrega.items() %} {% if clave ==
+                respuestaEmpleado.modo_entrega|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="condicion_parto" class="form-label">
+                Condición de Parto
+              </label>
+              {% with tipo_condicion_parto = {"1": "Inducida", "2": "Espontanea", "3": "Sin Labor"} %}
+              <select class="form-select" name="condicion_parto">
+                {% for clave, valor in tipo_condicion_parto.items() %} {% if clave ==
+                respuestaEmpleado.condicion_parto|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="duracion_parto" class="form-label">
+                Duración parto
+              </label>
+              {% with tipo_duracion_parto = {"1": "Normal", "2": "Precipitado", "3": "Prolongado"} %}
+              <select class="form-select" name="duracion_parto">
+                {% for clave, valor in tipo_duracion_parto.items() %} {% if clave ==
+                respuestaEmpleado.duracion_parto|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="tipo_embarazo" class="form-label">
+                Tipo de embarazo
+              </label>
+              {% with tipo_tipo_embarazo = {"1": "Multiple", "2": "Único"} %}
+              <select class="form-select" name="tipo_embarazo">
+                {% for clave, valor in tipo_tipo_embarazo.items() %} {% if clave ==
+                respuestaEmpleado.tipo_embarazo|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="sufrimiento_fetal" class="form-label">
+                Sufrimiento Fetal
+              </label>
+              {% with tipo_sufrimiento_fetal = {"0": "No", "1": "Si"} %}
+              <select class="form-select" name="sufrimiento_fetal">
+                {% for clave, valor in tipo_sufrimiento_fetal.items() %} {% if clave ==
+                respuestaEmpleado.sufrimiento_fetal|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="problema_cordon_umbilical" class="form-label">
+                Problema de cordón umbilical
+              </label>
+              {% with tipo_problema_cordon_umbilical = {"0": "No", "1": "Si"} %}
+              <select class="form-select" name="problema_cordon_umbilical">
+                {% for clave, valor in tipo_problema_cordon_umbilical.items() %} {% if clave ==
+                respuestaEmpleado.problema_cordon_umbilical|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="poco_fluido_amniotico" class="form-label">
+                Poco Fluido Amniotico
+              </label>
+              {% with tipo_poco_fluido_amniotico = {"0": "No", "1": "Si"} %}
+              <select class="form-select" name="poco_fluido_amniotico">
+                {% for clave, valor in tipo_poco_fluido_amniotico.items() %} {% if clave ==
+                respuestaEmpleado.poco_fluido_amniotico|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="historial_aborto" class="form-label">
+                Problema de cordón umbilical
+              </label>
+              {% with tipo_historial_aborto = {"0": "No", "1": "Si"} %}
+              <select class="form-select" name="historial_aborto">
+                {% for clave, valor in tipo_historial_aborto.items() %} {% if clave ==
+                respuestaEmpleado.historial_aborto|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+          </div>
+          
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="hipertension" class="form-label">
+                Hipertensión
+              </label>
+              {% with tipo_hipertension = {"0": "No", "1": "Si"} %}
+              <select class="form-select" name="hipertension">
+                {% for clave, valor in tipo_hipertension.items() %} {% if clave ==
+                respuestaEmpleado.hipertension|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="hemorragia_anteparto" class="form-label">
+                Hemorragia Anteparto
+              </label>
+              {% with tipo_hemorragia_anteparto = {"0": "No", "1": "Si"} %}
+              <select class="form-select" name="hemorragia_anteparto">
+                {% for clave, valor in tipo_hemorragia_anteparto.items() %} {% if clave ==
+                respuestaEmpleado.hemorragia_anteparto|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="peso_bebe" class="form-label">
+                Peso Bebé
+              </label>
+              {% with tipo_peso_bebe = {"1": "Bebé Grande", "2": "Peso Ligero", "3": "Normal"} %}
+              <select class="form-select" name="peso_bebe">
+                {% for clave, valor in tipo_peso_bebe.items() %} {% if clave ==
+                respuestaEmpleado.peso_bebe|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="edad_gestacional" class="form-label">
+                Edad Gestacional
+              </label>
+              {% with tipo_edad_gestacional = {"1": "Post Termino", "2": "Pre Termino", "3": "Bebé a termino"} %}
+              <select class="form-select" name="edad_gestacional">
+                {% for clave, valor in tipo_edad_gestacional.items() %} {% if clave ==
+                respuestaEmpleado.edad_gestacional|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+          </div>
+
+
+          
 
           <div class="mb-3 mt-4 text-center">
             <button type="submit" class="btn rounded-pill btn-primary">

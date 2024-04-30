@@ -20,3 +20,17 @@ function eliminarEmpleado(id_empleado, foto_empleado) {
     }
   }
 }
+
+document.getElementById("togglePassVisibility").addEventListener("click", function() {
+  var passwordInput = document.getElementById("pass_user");
+  var icon = this.querySelector("i");
+
+  // Si el tipo es 'password', cambiar a 'text' para mostrar el texto
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    icon.className = "bx bx-show"; // Cambiar icono para indicar que está visible
+  } else {
+    passwordInput.type = "password"; // Cambiar de vuelta a 'password'
+    icon.className = "bx bx-hide";  // Cambiar icono para indicar que está oculto
+  }
+});

@@ -4,7 +4,7 @@
   <td>{{ empleado.nombre_empleado }}</td>
   <td>{{ empleado.apellido_empleado }}</td>
   <td>{{ empleado.sexo_empleado }}</td>
-  <td>$ {{ '{:,.0f}'.format(empleado.salario_empleado).replace(',', '.')}}</td>
+  <td>{{ '{:,.0f}'.format(empleado.salario_empleado).replace(',', '.') }} kg</td>
   <td>
     <a
       href="/detalles-empleado/{{ empleado.id_empleado }}"
